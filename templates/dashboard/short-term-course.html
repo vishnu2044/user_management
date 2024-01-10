@@ -237,9 +237,9 @@
                                                     </td>
                                                     <td>
                                                         {% if x.status == 'Enable' %}
-                                                        <a href=""><span class="btn btn-success">Active</span></a>
+                                                        <a href="{% url 'update_status' x.id %}"><span class="btn btn-success">Active</span></a>
                                                         {% elif x.status == 'Disable' %}
-                                                        <a href=""> <span class="btn btn-danger">Inactive</span></a>
+                                                        <a href="{% url 'update_status' x.id %}"> <span class="btn btn-danger">Inactive</span></a>
                                                         {% endif  %}
                                                     </td>
                                                     <td>

@@ -9,6 +9,7 @@ urlpatterns = [
     path('create_courses/', views.create_courses, name="create_courses"),
     path('delete_course/<int:item_id>/', views.delete_course, name="delete_course"),
     path('edit_course/<int:item_id>/', views.edit_course, name="edit_course"),
+    path('update_status/<int:item_id>/', views.update_status, name="update_status"),
     
 
 ] 

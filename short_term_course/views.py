@@ -12,10 +12,8 @@ def view_courses(request):
     user = request.user
     if user.is_authenticated:
         try:
-            all_courses = ShortTermCourse.objects.get(user = user)
+            all_courses = ShortTermCourse.objects.filter(user = user)
 
-
-            
             courses_per_page = 10 
 
             paginator = Paginator(all_courses, courses_per_page)
@@ -123,7 +121,7 @@ def edit_course(request, item_id):
                     messages.error(request, "title and amount should not to be None")
                     return redirect(edit_course)
             try:
-                course = ShortTermCourse.objects.filter(id=item_id).update(
+                course = ShortTermCourse.objects.filter(id=item_id, user = user).update(
                     title=title,
                     subtitle=subtitle,
                     amount=amount,
@@ -151,5 +149,21 @@ def edit_course(request, item_id):
             return redirect(view_courses)
         
 
-def update_status(reqeust, item_id):
-    user = reqeust.user
+def update_status(request, item_id):
+    user = request.user
+
+    try:
+        course = ShortTermCourse.objects.get(id=item_id, user=user)
+
+        if course.status == "Enable":
+            course.status = 'Disable'
+        else:
+            course.status = 'Enable'
+        
+        course.save()
+
+    except ShortTermCourse.DoesNotExist:
+
+        messages.error(request, "item not found !!")
+
+    return redirect(view_courses)
